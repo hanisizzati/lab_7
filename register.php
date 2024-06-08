@@ -6,20 +6,28 @@
 <body>
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+        // Collect form data
         $matric = $_POST['matric'];
         $name = $_POST['name'];
-        $accessLevel = $_POST['accessLevel'];
+        $password = $_POST['password'];
+        $role = $_POST['role'];
 
- 
-        $conn = new mysqli("localhost", "username", "password", "Lab_7");
+        // Database connection
+        $servername = "localhost";
+        $username = "root"; // Default XAMPP username
+        $password_db = ""; // Default XAMPP password (empty string)
+        $dbname = "Lab_7"; // Database name
 
+        // Create connection
+        $conn = new mysqli($servername, $username, $password_db, $dbname);
 
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "INSERT INTO users (matric, name, accessLevel) VALUES ('$matric', '$name', '$accessLevel')";
+        // Insert data into users table
+        $sql = "INSERT INTO users (matric, name, password, role) VALUES ('$matric', '$name', '$password', '$role')";
 
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
@@ -27,6 +35,7 @@
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
 
+        // Close connection
         $conn->close();
     }
     ?>
@@ -38,10 +47,17 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
         
-        <label for="accessLevel">Access Level:</label>
-        <input type="text" id="accessLevel" name="accessLevel" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
         
-        <input type="submit" value="Register">
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="">Please select</option>
+            <option value="lecturer">Lecturer</option>
+            <option value="student">Student</option>
+        </select><br>
+        
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>
