@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php
-// Define an array of data containing information for each person
+
 $users = array(
     array("matric" => "02000", "name" => "Nur Ariffin Mohd Zin", "level" => "lecturer"),
     array("matric" => "A100", "name" => "Ahmad", "level" => "student"),
@@ -21,7 +21,7 @@ $users = array(
         <th>Level</th>
     </tr>
     <?php
-    // Loop through each user in the array and display their information in a table row
+   
     foreach ($users as $user) {
         echo "<tr>";
         echo "<td>" . $user["matric"] . "</td>";
