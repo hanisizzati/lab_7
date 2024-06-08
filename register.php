@@ -12,21 +12,21 @@
         $password = $_POST['password'];
         $role = $_POST['role'];
 
-        // Database connection
+        
         $servername = "localhost";
         $username = "root"; // Default XAMPP username
         $password_db = ""; // Default XAMPP password (empty string)
         $dbname = "Lab_7"; // Database name
 
-        // Create connection
+        
         $conn = new mysqli($servername, $username, $password_db, $dbname);
 
-        // Check connection
+        
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Insert data into users table
+        
         $sql = "INSERT INTO users (matric, name, password, role) VALUES ('$matric', '$name', '$password', '$role')";
 
         if ($conn->query($sql) === TRUE) {
@@ -35,7 +35,7 @@
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
 
-        // Close connection
+        
         $conn->close();
     }
     ?>
