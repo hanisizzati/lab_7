@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php
-// Define an array of data containing information for each person
+
 $users = array(
     array("matric" => "02000", "name" => "Nur Ariffin Mohd Zin", "level" => "lecturer", "action" => "<a href='update.php?id=02000'>Update</a> | <a href='delete.php?id=02000'>Delete</a>"),
     array("matric" => "A100", "name" => "Ahmad", "level" => "student", "action" => "<a href='update.php?id=A100'>Update</a> | <a href='delete.php?id=A100'>Delete</a>"),
@@ -22,7 +22,7 @@ $users = array(
         <th>Action</th>
     </tr>
     <?php
-    // Loop through each user in the array and display their information in a table row
+    
     foreach ($users as $user) {
         echo "<tr>";
         echo "<td>" . $user["matric"] . "</td>";
