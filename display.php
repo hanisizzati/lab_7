@@ -1,34 +1,89 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Lab_7";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT matric, name, role FROM users";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
-<html lang='eng'>
+<html>
 <head>
-    <title>Display</title>
+    <title>User Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-buttons a {
+            text-decoration: none;
+            margin: 0 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+        .action-buttons a.update {
+            background-color: #4CAF50;
+        }
+        .action-buttons a.delete {
+            background-color: #f44336;
+        }
+    </style>
 </head>
 <body>
-<?php
 
-$users = array(
-    array("matric" => "02000", "name" => "Nur Ariffin Mohd Zin", "level" => "lecturer"),
-    array("matric" => "A100", "name" => "Ahmad", "level" => "student"),
-    array("matric" => "A101", "name" => "Abu", "level" => "student"),
-    array("matric" => "A103", "name" => "Ahmad bin Abu", "level" => "student")
-);
+<h2>User Information</h2>
 
-?>
-<table border="1">
+<table>
     <tr>
         <th>Matric</th>
         <th>Name</th>
         <th>Level</th>
+        <th>Actions</th>
     </tr>
     <?php
-   
-    foreach ($users as $user) {
-        echo "<tr>";
-        echo "<td>" . $user["matric"] . "</td>";
-        echo "<td>" . $user["name"] . "</td>";
-        echo "<td>" . $user["level"] . "</td>";
-        echo "</tr>";
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>" . $row["matric"]. "</td>
+                    <td>" . $row["name"]. "</td>
+                    <td>" . $row["role"]. "</td>
+                    <td class='action-buttons'>
+                        <a class='update' href='update_user.php?matric=" . $row["matric"] . "'>Update</a>
+                        <a class='delete' href='delete_user.php?matric=" . $row["matric"] . "' onclick='return confirm(\"Are you sure you want to delete this user?\");'>Delete</a>
+                    </td>
+                  </tr>";
+        }
+    } else {
+        echo "<tr><td colspan='4'>No results found</td></tr>";
     }
+    $conn->close();
     ?>
 </table>
 
