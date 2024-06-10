@@ -1,41 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-    <form method="POST" action="login.php">
-        Matric: <input type="text" name="matric" required><br>
-        Password: <input type="text" name="password" required><br>
-        <input type="submit" name="login" value="Login">
-    </form>
-    <a href="register.php">Register here if you have not</a>
-</body>
-</html>
-
 <?php
 session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Lab_7";
+
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $matric = $_POST['matric'];
-    $password = $_POST['password'];
+    $matric = $_POST["matric"];
+    $password = $_POST["password"];
 
-    $conn = new mysqli("localhost", "username", "password", "Lab_7");
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $sql = "SELECT * FROM users WHERE matric='$matric' AND password='$password'";
+    $sql = "SELECT * FROM users WHERE matric='$matric'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        $_SESSION['loggedin'] = true;
-        header("Location: display.php");
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row["password"])) {
+            $_SESSION['matric'] = $matric;
+            header("Location: display_users.php");
+            exit();
+        } else {
+            echo "Invalid username or password, try <a href='login_page.php'>login</a> again.";
+        }
     } else {
-        echo "Invalid login";
+        echo "Invalid username or password, try <a href='login_page.php'>login</a> again.";
     }
-
-    $conn->close();
 }
+
+$conn->close();
 ?>
